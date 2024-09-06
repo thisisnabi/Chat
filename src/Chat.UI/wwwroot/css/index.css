@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #444;
+}
+
+.container {
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.rooms-logo {
+    margin-bottom: 20px;
+}
+
+    .rooms-logo img {
+        max-width: 100px;
+        height: auto;
+    }
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: -0.5rem !important;
+    color: #444;
+}
+
+a {
+    color: #0078d4;
+    text-decoration: none;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+.join-button {
+    background-color: #0078d4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .join-button:hover {
+        background-color: #005ea6;
+    }
+
+footer {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #444;
+}
+
+.input-group input.error {
+    border: 2px solid red;
+}

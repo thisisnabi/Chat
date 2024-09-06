@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Join to the Chatroom";
+}
+
+
+<div class="container">
+    <div class="rooms-logo">
+        <img src="~/join.png" alt="Rooms Logo">
+    </div>
+
+    <h1>Join your Room meeting</h1>
+
+    <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" autocomplete="off" name="username" placeholder="Enter your username" oninput="validateInput()">
+    </div>
+
+    <button class="join-button" onclick="joinMeeting()">Join on the Rooms app</button>
+
+    <p>Do you want to be a real member? <a href="#">Let's go</a></p>
+</div>
+
+<footer>
+    <a href="/privacy">Privacy and cookies</a>
+</footer>
+
+
+@section Styles
+{
+    <link href="~/css/index.css" rel="stylesheet" />
+}
+ 
+@section Scripts
+{
+    <script>
+        function joinMeeting() {
+            const usernameInput = document.getElementById('username');
+            const username = usernameInput.value.trim();
+            if (username === '') {
+                usernameInput.classList.add('error');
+            } else {
+                usernameInput.classList.remove('error');
+                var url = 'https://localhost:7199/user/' + username;
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log("user is valid");
+                        localStorage.setItem("username", username);
+                        setCookie("currentUserName",username,10);
+                        window.location.href = "/chat";
+                    },
+                    error: function () {
+                        console.error("failed connection to the identity server!");
+                        alert('Please fill out all fields.');
+                    }
+                });
+            }
+        }
+
+        function validateInput() {
+            const usernameInput = document.getElementById('username');
+            var username = usernameInput.value.trim();
+            if (username !== '') {
+                usernameInput.classList.remove('error');
+            };
+        }
+
+
+
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+    </script>
+}

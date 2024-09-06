@@ -1,0 +1,109 @@
+﻿@page
+@model Chat.UI.Pages.ChatModel
+@{
+    ViewData["Title"] = "Chatroom";
+}
+
+
+<div class="chat-container">
+    <header>
+        <h2>Welcome to the Chatroom</h2>
+    </header>
+
+    <div class="chat-content">
+        <aside class="conversations">
+            <h3>Conversations</h3>
+        </aside>
+
+        <section class="chat-window">
+            <div class="messages">
+            </div>
+            <div class="chat-input">
+                <input type="text" id="inputMessage" placeholder="Input box">
+                <button id="sendMessage">Send</button>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section Styles
+{
+    <link href="~/css/chat.css" rel="stylesheet" />
+}
+
+
+@section  Scripts
+{
+    <script src="~/chat.js"></script>
+
+    <script>
+                $(document).ready(function(){
+                    $("#lbl-userName").text(localStorage.getItem("username"));
+                    loadConversations(localStorage.getItem("username"));
+
+                    function loadConversations(username) {
+                        $.ajax({
+                            url: 'https://localhost:7199/conversation/' + username, // Replace with your actual API endpoint
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                $('.conversations .conversation').empty();
+
+                                data.forEach(function (conversation) {
+                                    const conversationHTML = `
+                                        <div class="conversation" data-id='${conversation.id}'>
+                                            <div>
+                                                <h4>${conversation.title}</h4>
+                                            </div>
+                                        </div>
+                                    `;
+
+                                    $('.conversations').append(conversationHTML);
+                                });
+
+
+                                $('.conversation').on('click', function () {
+                                    const conversationId = $(this).data('id');
+                                    $('.conversation').removeClass('selected');
+                                    $(this).addClass('selected');
+
+                                    localStorage.setItem("current_conversation", conversationId);
+                                    loadMessages(conversationId);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching conversations:', error);
+                            }
+                    });
+                }
+
+                        function loadMessages(conversationId) {
+                            $.ajax({
+                            url: `https://localhost:7199/conversation/${conversationId}/messages`,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                $('.messages').empty();
+
+                                data.forEach(function (message) {
+                                    const messageHTML = `
+                                        <div class="message">
+                                            <p><strong>${message.senderName}:</strong> ${message.content}</p>
+                                            <p class="time">${new Date(message.sentAt).toLocaleString()}</p>
+                                        </div>
+                                    `;
+
+                                    $('.messages').append(messageHTML);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching messages:', error);
+                            }
+                        });
+                    }
+
+            });
+
+    </script>
+}

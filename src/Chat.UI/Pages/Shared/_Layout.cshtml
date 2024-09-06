@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Chat.UI</title>
+    @await RenderSectionAsync("Styles", required: false)
+
+</head>
+<body>
+    @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/signalr.js"></script>
+     
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
